@@ -1,6 +1,7 @@
 import os
 import wave
 from datetime import datetime
+import typing_extensions
 
 import pyaudio
 import speech_recognition as sr
@@ -8,6 +9,44 @@ import speech_recognition as sr
 from project.config import config
 
 
+class AudioRecognizer():
+    def __init__(self):
+        self.r = sr.Recognizer()
+        self.m = sr.Microphone()
+        pass
+
+    def setup_microphone(self):
+        print("Момент тишины, микрофон настраивается...")
+        with self.m as source:
+            self.r.adjust_for_ambient_noise(source)
+
+        # print(f"{self.r.energy_threshold}") # self.r.energy_threshold
+        print('Микрофон настроен!')
+        return
+
+    def get_audio(self) -> str | None:
+        print("Слушаю...")
+        with self.m as source:
+            audio = self.r.listen(source)
+        # print("Got it! Now to recognize it...")
+        try:
+            # recognize speech using Google Speech Recognition
+            value = self.r.recognize_google(audio, language=config.language)
+
+            # print("You said {}".format(value))
+        except sr.UnknownValueError:
+            # print("Oops! Didn't catch that")
+            return None
+        except sr.RequestError as e:
+            print(f"Couldn't request results from Google Speech Recognition service; {e}")
+            raise e
+        else:
+            return value
+
+
+@typing_extensions.deprecated(
+    'The `get_waw` is deprecated'
+)
 def get_waw(seconds=3) -> str:
     try:
         # tmpdirname = tempfile.TemporaryDirectory(dir=temp_dir)
@@ -57,6 +96,9 @@ def get_waw(seconds=3) -> str:
         pass
 
 
+@typing_extensions.deprecated(
+    'The `recognize_speech` is deprecated'
+)
 def recognize_speech(filename: str) -> str:
     # print('try to recognize')
     # Создаем объект распознавателя речи
@@ -66,9 +108,13 @@ def recognize_speech(filename: str) -> str:
     audio_file = sr.AudioFile(filename)
 
     # Распознаем речь из аудио файла
-    with audio_file as source:
-        audio_data = recognizer.record(source)
-        text = recognizer.recognize_google(audio_data, language='ru-RU')
+    try:
+        with audio_file as source:
+            audio_data = recognizer.record(source)
+            text = recognizer.recognize_google(audio_data, language='ru-RU')
+    except Exception as e:
+        print(f'error!! {audio_data}, {e=}')
+        raise e
 
     # Выводим текст
     return text

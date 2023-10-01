@@ -23,6 +23,7 @@ class Config(BaseModel):
     ## recognizing settings
     key_phase: str = Field(default='папич')
     regexp: str = Field(default=r'[^A-Za-zА-ЯЁа-яё0-9 ]')
+    language: str = 'ru-RU'
 
     # делаем конфиг неизменяемым
     class Config:

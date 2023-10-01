@@ -1,11 +1,10 @@
 import os.path
 import re
-# import tempfile
 from typing import NoReturn
 
 import pyaudio
 
-from project.audio import get_waw, recognize_speech
+from project.audio import get_waw, recognize_speech, AudioRecognizer
 from project.command_performer import CommandPerformer
 from project.commands import get_current_time, get_os_type
 from project.config import config
@@ -37,7 +36,7 @@ def prepare_text(input_text: str) -> str | None:
     filtered_text = extract_text_after_command(text, config.key_phase)
 
     if filtered_text is None:
-        print(f'text not contain phase: {text}')
+        # print(f'text not contain phase: {text}')
         return
 
     print(filtered_text)
@@ -45,24 +44,32 @@ def prepare_text(input_text: str) -> str | None:
 
 
 def main() -> NoReturn:
+    audio_recognizer = AudioRecognizer()
     command_performer = CommandPerformer()
     command_performer.add_command('время', get_current_time)
     command_performer.add_command('система', get_os_type)
 
+    audio_recognizer.setup_microphone()
+
     def check_speech_after_word():
-        audio_filename = get_waw(5)
-        text = recognize_speech(audio_filename)
-        text = prepare_text(text)
-        if text:
-            command_performer.perform_command(text)
+        # audio_filename = get_waw(5)
+        # text = recognize_speech(audio_filename)
+        text = audio_recognizer.get_audio()
+        if text is None:
+            print('Ничего не услышал, слушаю дальше...')
+            return
+
+        filtered_text = prepare_text(text)
+        if filtered_text is None:
+            print(f'Не услышал команды: {text}')
+            return
+
+        command_performer.perform_command(filtered_text)
         return
 
-    check_speech_after_word()
-
-    # sched = BackgroundScheduler()
-    # sched.add_job(
-    #
-    # )
+    while True:
+        check_speech_after_word()
+        pass
     pass
 
 
