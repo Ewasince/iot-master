@@ -9,6 +9,7 @@ from project.audio import get_waw, recognize_speech
 from project.command_performer import CommandPerformer
 from project.commands import get_current_time, get_os_type
 from project.config import config
+from project.utils import extract_text_after_command
 
 
 def test_audio():
@@ -33,14 +34,11 @@ def prepare_text(input_text: str) -> str | None:
     text = input_text.lower()
     text = p.sub('', text)
 
-    pos = text.find(config.key_phase)
-    if pos == -1:
+    filtered_text = extract_text_after_command(text, config.key_phase)
+
+    if filtered_text is None:
         print(f'text not contain phase: {text}')
-        return None
-
-    pos = pos + len(config.key_phase) + 1
-
-    filtered_text = text[pos:]
+        return
 
     print(filtered_text)
     return filtered_text
