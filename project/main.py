@@ -4,29 +4,29 @@ from typing import NoReturn
 
 import pyaudio
 
-from project.audio import get_waw, recognize_speech, AudioRecognizer
+from project.audio import get_waw, AudioRecognizer
 from project.command_performer import CommandPerformer
 from project.commands import get_current_time, get_os_type
 from project.config import config
 from project.utils import extract_text_after_command
 
 
-def test_audio():
-    def get_sound_devices():
-        """Выдает список девайсов для записи аудио"""
-        p = pyaudio.PyAudio()
-        for i in range(p.get_device_count()):
-            device_name: str = p.get_device_info_by_index(i)['name']
-            device_name = device_name.encode('cp1251').decode('utf-8')
-            print(i, device_name)
-
-    get_sound_devices()
-
-    # для тестирования записи и распознавания
-    audio_filename = get_waw(5)
-    text = recognize_speech(audio_filename)
-    print(text)
-    return
+# def test_audio():
+#     def get_sound_devices():
+#         """Выдает список девайсов для записи аудио"""
+#         p = pyaudio.PyAudio()
+#         for i in range(p.get_device_count()):
+#             device_name: str = p.get_device_info_by_index(i)['name']
+#             device_name = device_name.encode('cp1251').decode('utf-8')
+#             print(i, device_name)
+#
+#     get_sound_devices()
+#
+#     # для тестирования записи и распознавания
+#     audio_filename = get_waw(5)
+#     text = recognize_speech(audio_filename)
+#     print(text)
+#     return
 
 
 def prepare_text(input_text: str) -> str | None:
@@ -39,7 +39,6 @@ def prepare_text(input_text: str) -> str | None:
         # print(f'text not contain phase: {text}')
         return
 
-    print(filtered_text)
     return filtered_text
 
 

@@ -29,9 +29,24 @@ class AudioRecognizer():
         with self.m as source:
             audio = self.r.listen(source)
         # print("Got it! Now to recognize it...")
+        text = self.recognize_speech(audio)
+        return text
+
+    def recognize_from_file(self, audio_filename: str) -> str:
+        # Загружаем аудио файл
+        audio_file = sr.AudioFile(audio_filename)
+
+        with audio_file as source:
+            audio_data = self.r.record(source)
+            text = self.recognize_speech(audio_data)
+
+        return text
+
+    def recognize_speech(self, audio_data: sr.AudioData) -> str | None:
+        # Распознаем речь из аудио
         try:
             # recognize speech using Google Speech Recognition
-            value = self.r.recognize_google(audio, language=config.language)
+            value = self.r.recognize_google(audio_data, language=config.language)
 
             # print("You said {}".format(value))
         except sr.UnknownValueError:
@@ -96,25 +111,3 @@ def get_waw(seconds=3) -> str:
         pass
 
 
-@typing_extensions.deprecated(
-    'The `recognize_speech` is deprecated'
-)
-def recognize_speech(filename: str) -> str:
-    # print('try to recognize')
-    # Создаем объект распознавателя речи
-    recognizer = sr.Recognizer()
-
-    # Загружаем аудио файл
-    audio_file = sr.AudioFile(filename)
-
-    # Распознаем речь из аудио файла
-    try:
-        with audio_file as source:
-            audio_data = recognizer.record(source)
-            text = recognizer.recognize_google(audio_data, language='ru-RU')
-    except Exception as e:
-        print(f'error!! {audio_data}, {e=}')
-        raise e
-
-    # Выводим текст
-    return text
