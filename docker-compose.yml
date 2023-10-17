@@ -1,0 +1,13 @@
+services:
+  home_assistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    volumes:
+      - ./configuration:/config
+    environment:
+      - TZ=MY_TIME_ZONE
+    restart: unless-stopped
+    ports:
+      - 8123:8123
+    message_source:
+      image:
+#    networks:
