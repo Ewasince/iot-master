@@ -164,4 +164,4 @@ poetry.lock
 
 # data and env files
 *.env
-data/
+ha_conf/
