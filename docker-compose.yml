@@ -8,6 +8,23 @@ services:
     restart: unless-stopped
     ports:
       - 8123:8123
+#    networks:
+#      - default
+
+  simple_light:
+    build:
+      context: .
+      dockerfile: docker/DockerfileLight
+    ports:
+      - 8001:4444
+#    networks:
+#      - default
+
 #    message_source:
 #      image:
 #    networks:
+
+
+#networks:
+#  default:
+#    name: default

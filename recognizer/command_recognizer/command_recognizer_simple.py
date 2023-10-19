@@ -1,5 +1,5 @@
-from app_interfaces.i_command_performer import ICommandPerformer
-from app_interfaces.i_command_recognizer import ICommandRecognizer
+from recognizer.app_interfaces.i_command_performer import ICommandPerformer
+from recognizer.app_interfaces.i_command_recognizer import ICommandRecognizer
 
 
 class CommandRecognizerSimple(ICommandRecognizer):

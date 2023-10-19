@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from app_interfaces.i_command_performer import ICommandPerformer
+from recognizer.app_interfaces.i_command_performer import ICommandPerformer
 
 
 class ICommandRecognizer(ABC):

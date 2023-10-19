@@ -1,16 +1,16 @@
 from typing import NoReturn
 
-from app_interfaces.i_command_performer import ICommandPerformer
-from app_interfaces.i_command_recognizer import ICommandRecognizer
-from app_interfaces.i_messages_recognizer import IMessagesRecognizer
-from app_interfaces.i_messages_source import IMessagesSource
-from command_recognizer.command_recognizer_simple import CommandRecognizerSimple
-from commands.command_get_current_os.command_get_current_os import CommandGetCurrentOS
-from commands.command_get_current_time.command_get_current_time import (
+from recognizer.app_interfaces.i_command_performer import ICommandPerformer
+from recognizer.app_interfaces.i_command_recognizer import ICommandRecognizer
+from recognizer.app_interfaces.i_messages_recognizer import IMessagesRecognizer
+from recognizer.app_interfaces.i_messages_source import IMessagesSource
+from recognizer.command_recognizer.command_recognizer_simple import CommandRecognizerSimple
+from recognizer.commands.command_get_current_os.command_get_current_os import CommandGetCurrentOS
+from recognizer.commands.command_get_current_time.command_get_current_time import (
     CommandGetCurrentTime,
 )
-from massages_source.messages_source import MessagesSourceLocalMic
-from message_recognizer_local_mic.message_recognizer_local_mic import (
+from recognizer.massages_source.messages_source import MessagesSourceLocalMic
+from recognizer.message_recognizer_local_mic.message_recognizer_local_mic import (
     MessageRecognizerLocalMic,
 )
 

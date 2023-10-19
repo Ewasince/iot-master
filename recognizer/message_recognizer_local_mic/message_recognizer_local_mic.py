@@ -6,8 +6,8 @@ import pyaudio
 import speech_recognition as sr
 import typing_extensions
 
-from app_interfaces.i_messages_recognizer import IMessagesRecognizer
-from app_utils.config import Config
+from recognizer.app_interfaces.i_messages_recognizer import IMessagesRecognizer
+from recognizer.app_utils.config import Config
 
 
 class MessageRecognizerLocalMic(IMessagesRecognizer):

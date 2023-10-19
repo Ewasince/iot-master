@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app_interfaces.i_command_performer import ICommandPerformer
+from recognizer.app_interfaces.i_command_performer import ICommandPerformer
 
 
 class CommandGetCurrentTime(ICommandPerformer):
