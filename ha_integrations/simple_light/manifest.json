@@ -1,0 +1,11 @@
+{
+  "domain": "simple_light",
+  "name": "Integration for simple light device, which indicates itself state into console",
+  "version": "0.1.0",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "requirements": ["requests"],
+  "codeowners": [],
+  "dependencies": [],
+  "documentation": "https://www.example.com"
+}

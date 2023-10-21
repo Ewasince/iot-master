@@ -2,6 +2,7 @@ services:
   home_assistant:
     image: ghcr.io/home-assistant/home-assistant:stable
     volumes:
+      - ./ha_integrations:/config/custom_components
       - ./ha_conf:/config
     environment:
       - TZ=MY_TIME_ZONE
