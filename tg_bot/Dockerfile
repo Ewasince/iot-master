@@ -14,7 +14,7 @@ RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /app
 
 # Project initialization:
-COPY pyproject.toml .
+COPY ../simple_console_light/pyproject.toml .
 RUN poetry config virtualenvs.create false \
   && poetry install --no-dev --no-interaction --no-ansi --only=$DEPENDENCY_GROUP
 

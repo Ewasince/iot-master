@@ -29,10 +29,9 @@ services:
 
   tg_bot:
     build:
-      context: .
-      dockerfile: docker/DockerfileTg
-#    networks:
-#      - default
+      context: tg_bot
+    networks:
+      iot_network:
 
 
 networks:
