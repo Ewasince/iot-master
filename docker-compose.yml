@@ -5,6 +5,7 @@ services:
     volumes:
       - ./ha_integrations:/config/custom_components
       - ./ha_conf:/config
+      - audio_files:/voice_messages
     environment:
       - TZ=MY_TIME_ZONE
     restart: unless-stopped
@@ -19,19 +20,47 @@ services:
 
   simple_light:
     build:
-      context: simple_console_light
+      context: .
+      dockerfile: simple_console_light/Dockerfile
     ports:
-      - 8001:4444
+      - 8001:80
     networks:
       iot_network:
-#        ipv4_address: 172.16.238.2
+      default:
+
+  simple_light2:
+    build:
+      context: .
+      dockerfile: simple_console_light/Dockerfile
+#    ports:
+#      - 8002:80
+    networks:
+      iot_network:
+      default:
+
+  simple_light3:
+    build:
+      context: .
+      dockerfile: simple_console_light/Dockerfile
+#    ports:
+#      - 8003:80
+    networks:
+      iot_network:
       default:
 
   tg_bot:
     build:
-      context: tg_bot
+      context: .
+      dockerfile: tg_bot/Dockerfile
+    volumes:
+      - audio_files:/voice_messages
     networks:
       iot_network:
+      default:
+    environment:
+      - KEY_PHASE=
+    depends_on:
+      - simple_light
 
 
 networks:
@@ -48,3 +77,6 @@ networks:
 #  default:
 #    driver: bridge
 #    external: True
+
+volumes:
+  audio_files:

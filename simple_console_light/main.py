@@ -7,8 +7,8 @@ from flask import Flask
 app = Flask(__name__)
 
 DEBUG_MODE = os.environ.get("DEBUG", True)
-APP_PORT = os.environ.get("DEBUG", 4444)
-APP_HOST = os.environ.get("DEBUG", "0.0.0.0")
+APP_PORT = os.environ.get("PORT", 80)
+APP_HOST = os.environ.get("HOST", "0.0.0.0")
 
 is_on_state = False
 

@@ -92,7 +92,6 @@ class SimpleLight(LightEntity):
 
     def turn_on(self, **kwargs):
         """Turn the device on."""
-        print('HHHUUUUUUIIIIIIIIIIIIII')
         _LOGGER.info('start')
         r = requests.get(f'http://{self._url}:{self._port}/on')
         if not r.ok:

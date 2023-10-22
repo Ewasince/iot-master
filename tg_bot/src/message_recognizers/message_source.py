@@ -1,11 +1,14 @@
-from recognizer.app_interfaces.i_messages_recognizer import IMessagesRecognizer
-from recognizer.app_interfaces.i_messages_source import IMessagesSource
-from recognizer.app_utils.config import Config
-from recognizer.app_utils.utils import normalize_text, extract_text_after_command
+from voice_assistant.app_utils.config import Config
+from voice_assistant.app_utils.utils import normalize_text, extract_text_after_command
+
+from src.message_recognizers.i_messages_recognizer import IMyMessagesRecognizer
+from src.message_recognizers.i_messages_source import IMyMessagesSource
 
 
-class MessagesSourceLocalMic(IMessagesSource):
-    def __init__(self, recognizer: IMessagesRecognizer):
+class MessagesSourceTgBot(IMyMessagesSource):
+    """Обрабатывает полученный текст от распознавателя"""
+
+    def __init__(self, recognizer: IMyMessagesRecognizer):
         self.recognizer = recognizer
         self.config = Config()
         return
@@ -37,13 +40,9 @@ class MessagesSourceLocalMic(IMessagesSource):
 
         return filtered_text
 
-    def wait_command(self) -> str:
-        while True:
-            text = self.recognizer.get_audio()
+    async def get_text_from_audio(self, filename: str) -> str | None:
+        text = await self.recognizer.get_text_from_audiofile(filename)
 
-            command = self._check_command_after_key_word(text)
-
-            if command is not None:
-                break
+        command = self._check_command_after_key_word(text)
 
         return command
