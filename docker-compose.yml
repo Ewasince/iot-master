@@ -27,6 +27,13 @@ services:
 #        ipv4_address: 172.16.238.2
       default:
 
+  tg_bot:
+    build:
+      context: .
+      dockerfile: docker/DockerfileTg
+#    networks:
+#      - default
+
 
 networks:
   iot_network:
