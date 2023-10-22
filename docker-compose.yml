@@ -18,6 +18,11 @@ services:
       dockerfile: docker/DockerfileLight
     ports:
       - 8001:4444
+
+  tg_bot:
+    build:
+      context: .
+      dockerfile: docker/DockerfileTg
 #    networks:
 #      - default
 
