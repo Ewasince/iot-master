@@ -1,6 +1,7 @@
 services:
   home_assistant:
-    image: ghcr.io/home-assistant/home-assistant:stable
+    build:
+      context: .
     volumes:
       - ./ha_integrations:/config/custom_components
       - ./ha_conf:/config
@@ -18,8 +19,7 @@ services:
 
   simple_light:
     build:
-      context: .
-      dockerfile: docker/DockerfileLight
+      context: simple_console_light
     ports:
       - 8001:4444
     networks:

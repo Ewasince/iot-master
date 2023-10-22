@@ -5,8 +5,7 @@ ENV PYTHONUNBUFFERED=1 \
   PIP_DISABLE_PIP_VERSION_CHECK=on \
   PIP_DEFAULT_TIMEOUT=100 \
   POETRY_VERSION=1.6.1 \
-  PYTHONPATH=/app \
-  DEPENDENCY_GROUP=simple_light
+  PYTHONPATH=/app
 
 # System deps:
 RUN pip install "poetry==$POETRY_VERSION"
@@ -16,9 +15,9 @@ WORKDIR /app
 # Project initialization:
 COPY pyproject.toml .
 RUN poetry config virtualenvs.create false \
-  && poetry install --no-dev --no-interaction --no-ansi --only=$DEPENDENCY_GROUP
+  && poetry install --no-dev --no-interaction --no-ansi
 
 # Creating folders, and files for a project:
-COPY ./simple_console_light /app
+COPY . /app
 
 CMD python main.py
