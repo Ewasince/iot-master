@@ -52,6 +52,7 @@ services:
     build:
       context: .
       dockerfile: tg_bot/Dockerfile
+    image: tg_bot_for_iot
     volumes:
       - audio_files:/voice_messages
     networks:

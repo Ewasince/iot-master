@@ -35,14 +35,18 @@ class RouterWrapper:
 
     async def message_handler(self, msg: Message):
         """
-        Обработчик получения голосового сообщения.
+        Обработчик получения сообщений.
         """
         try:
-            file_id = msg.voice.file_id
+            msg.voice.file_id
         except AttributeError:
-            await msg.reply("Неверный формат сообщения")
-            logger.info("Неверный формат сообщения")
+            await self._perform_iot_command(msg.text, msg)
             return
+        else:
+            await self._voice_message_handler(msg)
+
+    async def _voice_message_handler(self, msg: Message):
+        file_id = msg.voice.file_id
 
         file_on_disk_oga = None
         file_on_disk_wav = None
@@ -69,17 +73,20 @@ class RouterWrapper:
             if command is None:
                 return
 
-            res = await self.command_recognizer.process_command(command)
-
-            if res is None:
-                return
-
-            await msg.reply(res)
+            await self._perform_iot_command(command, msg)
         finally:
             # if file_on_disk_oga: os.remove(file_on_disk_oga)
             if file_on_disk_wav:
                 os.remove(file_on_disk_wav)
             pass
+
+    async def _perform_iot_command(self, command: str, msg: Message):
+        res = await self.command_recognizer.process_command(command)
+
+        if res is None:
+            return
+
+        await msg.reply(res)
 
     async def start_handler(self, msg: Message):
         await msg.answer(
